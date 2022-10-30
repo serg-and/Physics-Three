@@ -1,5 +1,6 @@
 import { Vector3 } from "three";
 import { fps, totalEnergy } from "./app";
+import settings from "./settings";
 
 const G = 6.617 * 1
 
@@ -10,6 +11,7 @@ var lastSecond = 0;
 var frames = 1;
 
 export const step = () => {
+    const stepPhysicsObjects = [...physicsObjects]
     const stepTime = Date.now()
     
     // ---- fps ----
@@ -21,8 +23,8 @@ export const step = () => {
 
     let updatedPositions = []
 
-    physicsObjects.forEach(object => {
-        physicsObjects.forEach(neighbour => {
+    stepPhysicsObjects.forEach(object => {
+        stepPhysicsObjects.forEach(neighbour => {
             if (neighbour !== object) {
                 const distance = object.mesh.position.distanceTo(neighbour.mesh.position);
                 if (!distance) return
@@ -43,10 +45,10 @@ export const step = () => {
     })
 
     // check collision
-    physicsObjects.forEach((object, i) => {
+    stepPhysicsObjects.forEach((object, i) => {
         let newPosition = updatedPositions[i]
         
-        physicsObjects.forEach(neighbour => {
+        stepPhysicsObjects.forEach(neighbour => {
             if (neighbour !== object) {
                 const distance = newPosition.distanceTo(neighbour.mesh.position);
                 if (!distance) return
@@ -70,8 +72,10 @@ export const step = () => {
         object.mesh.position.set(newPosition.x, newPosition.y, newPosition.z)
     })
 
+    if (settings.renderVectorLine) stepPhysicsObjects.forEach(object => object.updateVectorLine())
+
     let energy = 0
-    physicsObjects.forEach(object =>
+    stepPhysicsObjects.forEach(object =>
         energy += (object.vector.x + object.vector.y + object.vector.z) * object.mass
     )
     totalEnergy.innerText = energy

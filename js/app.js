@@ -5,14 +5,14 @@ import { step } from './engine';
 import {PhysicsObject} from './models';
 
 // <-- Setup Scene
-const scene = new THREE.Scene();
+export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
 });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(40);
+camera.position.setZ(50);
 
 const pointLight = new THREE.PointLight(0xFF0000);
 pointLight.position.set(15, 50, 5);
@@ -56,45 +56,57 @@ scene.add(ambientLight);
 export const totalEnergy = totalEnergyValue
 export const fps = fpsValue
 
-// const object1 = new PhysicsObject(1000, new Vector3(0, 0, 0), new Vector3(0, 0, 0), 3);
+// const object1 = new PhysicsObject(10, new Vector3(0, 0, 0), new Vector3(0, 0, 0), 3);
 // scene.add(object1.mesh)
 
-// const object2 = new PhysicsObject(1, new Vector3(30, 0, 0));
+// const object2 = new PhysicsObject(10, new Vector3(6, 0, 0));
 // scene.add(object2.mesh)
 // object2.applyForce(new Vector3(0, 50, 0))
 
-// const object3 = new PhysicsObject(1, new Vector3(-30, 0, 0));
-// scene.add(object3.mesh)
-// object3.applyForce(new Vector3(0, -50, 0))
+const object3 = new PhysicsObject(10, new Vector3(0, -20, 0));
+scene.add(object3.mesh)
+object3.applyForce(new Vector3(-3, 0, 0))
+
+const object4 = new PhysicsObject(10, new Vector3(0, 20, 0));
+scene.add(object4.mesh)
+object4.applyForce(new Vector3(3, 0, 0))
 
 // const object4 = new PhysicsObject(2, new Vector3(-5, 0, 0));
 // scene.add(object4.mesh)
 // const object5 = new PhysicsObject(2, new Vector3(5, 0, 0));
 // scene.add(object5.mesh)
 
-// const object3 = new PhysicsObject(1, new Vector3(-7, 0, 0));
+// const object3 = new PhysicsObject(1, new Vector3(-9, 0, 0));
 // scene.add(object3.mesh)
 // object3.applyForce(new Vector3(0, -110, 0))
 
 
-for (let i = 0; i < 400; i++) {
-  const r = new PhysicsObject(
-    Math.floor((Math.random() * 18) + 10) / 10,
-    new Vector3(
-      Math.floor(Math.random() * 80) - 40,
-      Math.floor(Math.random() * 80) - 40,
-      0
-    ),
-    // new Vector3(
-    //   Math.floor(Math.random() * 80) - 40,
-    //   Math.floor(Math.random() * 80) - 40,
-    //   Math.floor(Math.random() * 80) - 40
-    // )
-  )
+// for (let i = 0; i < 50; i++) {
+//   const r = new PhysicsObject(
+//     Math.floor((Math.random() * 18) + 10) / 10,
+//     new Vector3(
+//       Math.floor(Math.random() * 80) - 40,
+//       Math.floor(Math.random() * 80) - 40,
+//       0
+//     ),
+//     // new Vector3(
+//     //   Math.floor(Math.random() * 80) - 40,
+//     //   Math.floor(Math.random() * 80) - 40,
+//     //   Math.floor(Math.random() * 80) - 40
+//     // )
+//   )
 
-  scene.add(r.mesh)
-}
+//   scene.add(r.mesh)
+// }
 
+// const line = new THREE.Line(
+//   new THREE.BufferGeometry().setFromPoints([
+//     new Vector3(-10, 0, 0),
+//     new Vector3(10, 0, 0)
+//   ]),
+//   new THREE.LineBasicMaterial( { color: 0x00ff00 } )
+// )
+// scene.add(line)
 
 const renderLoop = async () => {
   requestAnimationFrame(renderLoop)
